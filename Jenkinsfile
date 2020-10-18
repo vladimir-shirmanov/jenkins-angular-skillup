@@ -4,12 +4,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                sh "npm install"
+                sh "ng build --prod"
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                sh "ng test"
+                sh "ng e2e"
             }
         }
         stage('Deploy') {
