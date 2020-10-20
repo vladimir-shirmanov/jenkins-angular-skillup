@@ -7,13 +7,13 @@ pipeline {
         stage('Build') {
             steps {
                 sh "npm install"
-                sh "ng build --prod"
+                sh "npm run deploy"
             }
         }
         stage('Test') {
             steps {
-                sh "ng test"
-                sh "ng e2e"
+                sh "npm run test"
+                sh "npm run e2e"
             }
         }
         stage('Deploy') {
