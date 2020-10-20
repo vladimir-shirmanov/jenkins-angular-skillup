@@ -3,16 +3,23 @@ pipeline {
 
     tools {nodejs "node"}
 
+    environment {
+        QA = 'waws-prod-dm1-163.ftp.azurewebsites.windows.net'
+        DIST_FOLDER = '/site/wwwroot/'
+        APP_SERVICE_CREDS = credentials('')
+    }
+
     stages {
         stage('Build') {
             steps {
                 sh "npm install"
+                sh "npm version ${nextVersionFromGit('patch')}"
                 sh "npm run deploy"
             }
         }
         stage('Deploy') {
             steps {
-                echo "${nextVersionFromGit('patch')}"
+                sh "lftp -u '${}',${} -e 'rm -r ${env.DIST_FOLDER}; mirror -R /dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
             }
         }
     }
