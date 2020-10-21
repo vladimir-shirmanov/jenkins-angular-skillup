@@ -7,6 +7,6 @@ import { version } from '../../package.json'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'jen-tut ci cd is working';
+  title = 'jen-tut ci cd is working huray';
   version = version;
 }
