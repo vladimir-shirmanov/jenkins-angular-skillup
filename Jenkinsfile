@@ -24,9 +24,7 @@ pipeline {
               }
             }
             steps {
-                echo "${env.WORKSPACE}"
-                sh "ls ${env.WORKSPACE}"
-                sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PSW} -e 'rm -r ${env.DIST_FOLDER}; mirror -R /dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
+                sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PSW} -e 'rm -r ${env.DIST_FOLDER}; mirror -R ${env.WORKSPACE}/dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
                 sh "git tag -a ${nextVersionFromGit('patch')} -m 'qa version ${nextVersionFromGit('patch')}'"
             }
         }
