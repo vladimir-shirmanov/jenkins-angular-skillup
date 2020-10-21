@@ -17,11 +17,40 @@ pipeline {
                 sh "npm run deploy"
             }
         }
-        stage('Deploy') {
+        stage('Deploy QA') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
+            }
             steps {
+                echo "${env.BUILD_URL}"
+                sh "ls ${env.BUILD_URL}"
                 sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PSW} -e 'rm -r ${env.DIST_FOLDER}; mirror -R /dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
                 sh "git tag -a ${nextVersionFromGit('patch')} -m 'qa version ${nextVersionFromGit('patch')}'"
             }
+        }
+        stage('Prod check deployment') {
+            steps {
+                input "Do we need to proceed with prod deployment?"
+            }
+        }
+        stage('Deploy PROD') {
+            steps {
+                echo 'Deploying prod...'
+            }
+        }
+
+    }
+    post {
+        always {
+            deleteDir()
+        }
+        success {
+            echo 'Finished successfuly'
+        }
+        failure {
+            echo 'Finished with errors'
         }
     }
 
