@@ -6,7 +6,7 @@ pipeline {
     environment {
         QA = 'waws-prod-dm1-163.ftp.azurewebsites.windows.net'
         DIST_FOLDER = '/site/wwwroot/'
-        APP_SERVICE_CREDS = credentials('')
+        APP_SERVICE_CREDS = credentials('jen-tut-qa')
     }
 
     stages {
@@ -19,7 +19,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "lftp -u '${}',${} -e 'rm -r ${env.DIST_FOLDER}; mirror -R /dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
+                sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PWD} -e 'rm -r ${env.DIST_FOLDER}; mirror -R /dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
+                sh "git tag -a ${nextVersionFromGit('patch')} -m 'qa version ${nextVersionFromGit('patch')}'"
             }
         }
     }
