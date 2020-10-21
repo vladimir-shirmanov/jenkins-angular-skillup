@@ -13,7 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh "npm install"
-                sh "npm version ${nextVersionFromGit('patch')}"
+                sh "npm version ${nextVersionFromGit('patch')} --no-git-tag-version"
                 sh "npm run deploy"
             }
         }
