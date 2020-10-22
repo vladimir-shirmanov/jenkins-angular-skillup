@@ -14,7 +14,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh "npm install"
-                sh "npm version ${env.TAG_VERSION} --no-git-tag-version"
+                sh "npm --no-git-tag-version version"
+                sh "npm version ${env.TAG_VERSION}"
                 sh "npm run deploy"
             }
         }
