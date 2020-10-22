@@ -7,13 +7,14 @@ pipeline {
         QA = 'waws-prod-dm1-163.ftp.azurewebsites.windows.net'
         DIST_FOLDER = '/site/wwwroot/'
         APP_SERVICE_CREDS = credentials('jen-tut-qa')
+        TAG_VERSION = nextVersionFromGit('patch')
     }
 
     stages {
         stage('Build') {
             steps {
                 sh "npm install"
-                sh "npm version ${nextVersionFromGit('patch')} --no-git-tag-version"
+                sh "npm version ${env.TAG_VERSION} --no-git-tag-version"
                 sh "npm run deploy"
             }
         }
@@ -25,8 +26,8 @@ pipeline {
             }
             steps {
                 sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PSW} -e 'rm -r ${env.DIST_FOLDER}; mirror -R ${env.WORKSPACE}/dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
-                sh "git tag -a ${nextVersionFromGit('patch')} -m 'qa version ${nextVersionFromGit('patch')}'"
-                sh "git push --tags"
+                sh "git tag -a ${env.TAG_VERSION} -m 'qa version ${env.TAG_VERSION}'"
+                sh "git push ${env.GIT_URL} ${env.TAG_VERSION}"
             }
         }
         stage('Prod check deployment') {
