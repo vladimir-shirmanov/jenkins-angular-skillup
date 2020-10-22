@@ -28,8 +28,8 @@ pipeline {
             steps {
                 sh "lftp -u '${env.APP_SERVICE_CREDS_USR}',${env.APP_SERVICE_CREDS_PSW} -e 'rm -r ${env.DIST_FOLDER}; mirror -R ${env.WORKSPACE}/dist/jen-tut/ ${env.DIST_FOLDER}; quit' ${env.QA}"
                 sh "git tag -a ${env.TAG_VERSION} -m 'qa version ${env.TAG_VERSION}'"
-                withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PSW', usernameVariable: 'GIT_USR')]) {
-                    sh "git push https://${GIT_USR}:${GIT_PSW}@${env.REPO} ${env.TAG_VERSION}"
+                sshagent (credentials: ['git-ssh']) { {
+                    sh "git push ${env.GIT_URL} ${env.TAG_VERSION}"
                 }
             }
         }
