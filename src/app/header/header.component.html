@@ -1,0 +1,17 @@
+<header>
+    <a routerLink="/">Logo</a>
+    <nav>
+        <a href=""></a>
+        <ng-container *ngIf="isAuthenticated$ | async; else loggedOut">
+            <a routerLink="/account">Account</a>
+            <button (click)="logout()">Log out</button>
+        </ng-container>
+
+
+    </nav>
+</header>
+
+
+<ng-template #loggedOut>
+    <button (click)="login()">Log in</button>
+</ng-template>
