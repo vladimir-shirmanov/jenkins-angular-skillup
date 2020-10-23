@@ -1,17 +1,10 @@
 <header>
-    <a routerLink="/">Logo</a>
     <nav>
-        <a href=""></a>
-        <ng-container *ngIf="isAuthenticated$ | async; else loggedOut">
-            <a routerLink="/account">Account</a>
-            <button (click)="logout()">Log out</button>
-        </ng-container>
+        <button routerLink="/home" class="logo-btn"><img></button>
+        <div class="nav-menu">
+            <a href=""></a>
 
-
+            <app-auth-group></app-auth-group>
+        </div>
     </nav>
 </header>
-
-
-<ng-template #loggedOut>
-    <button (click)="login()">Log in</button>
-</ng-template>

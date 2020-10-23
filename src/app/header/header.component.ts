@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,21 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  isAuthenticated$: Observable<boolean>
 
-  constructor(private auth: AuthService) { 
-    this.isAuthenticated$ = auth.isAuthenticated$;
+  constructor() { 
   }
 
   ngOnInit(): void {
-  }
-
-  login() {
-    this.auth.loginWithRedirect();
-  }
-
-  logout() {
-    this.auth.logout({ returnTo: document.location.origin });
   }
 
 }

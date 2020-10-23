@@ -1,0 +1,29 @@
+@import '../../scss/variables.scss';
+
+header {
+    display: flex;
+    min-height: 80px;
+    background-color: $black;
+
+    nav {
+        display: flex;
+        min-width: 80%;
+        margin: 0 auto;
+        align-items: center;
+        justify-content: space-between;
+
+        .nav-menu {
+            height: 40px;
+
+        }
+
+        .logo-btn {
+            background-image: url('../../assets/img/lion-logo.png');
+            width: 80px;
+            border: none;
+            background-size: cover;
+            background-color: transparent;
+            align-self: stretch;
+        }
+    }
+}

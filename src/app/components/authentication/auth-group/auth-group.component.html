@@ -1,0 +1,10 @@
+<app-login-button *ngIf="(isAuthenticated$ | async) === false"></app-login-button>
+
+<div *ngIf="(isAuthenticated$ | async)">
+    <button [matMenuTriggerFor]="beforeMenu" class="profile-btn">{{profile.name}} <div class="profile-img"><img [src]="profile.picture"
+                alt="Profile logo"></div></button>
+    <mat-menu #beforeMenu="matMenu" class="menu">
+        <button mat-menu-item>Item 1</button>
+        <app-logout-button class="mat-menu-item"></app-logout-button>
+    </mat-menu>
+</div>
